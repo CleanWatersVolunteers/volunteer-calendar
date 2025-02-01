@@ -49,7 +49,7 @@ export default {
     handleLogin() {
       if (this.username && this.password) {
         localStorage.setItem("isLoggedIn", "true");
-        this.$store.dispatch("shifts/login");
+        this.$store.dispatch("login", {username: this.username, password: this.password});
         this.$router.push("/headquarters");
       }
     },

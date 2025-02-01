@@ -318,10 +318,10 @@ export default createStore({
       roleData.volunteers = roleData.volunteers.filter((v) => v.id !== volunteerId);
     },
     // для авторизации через API
-    // setToken(state, token) {
-    //   state.token = token;
-    //   localStorage.setItem('token', token)
-    // },
+    setToken(state, token) {
+      state.token = token;
+      localStorage.setItem('token', token)
+    },
     // setUser(state, user) {
     //   state.user = user;
     // },
@@ -349,9 +349,10 @@ export default createStore({
       state.sections = sections;
     },
     async login({ commit }, credentials) {
+      console.log("login", credentials);
       const data = await login(credentials);
       commit('setToken', data.token); // Сохраняем токен
-      commit('setUser', data.user);   // Сохраняем данные пользователя (если есть)
+      //commit('setUser', data.user);   // Сохраняем данные пользователя (если есть)
     },
     logout({ commit }) {
       commit('logout');

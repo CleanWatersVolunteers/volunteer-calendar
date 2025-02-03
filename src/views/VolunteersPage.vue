@@ -23,8 +23,8 @@ export default {
       headers: [
         { title: "ФИО", value: "name" },
         { title: "Телефон", value: "phone" },
-        { title: "Телеграм", value: "telegram"},
-        { title: "Опыт", value: "experience"}
+        { title: "Телеграм", value: "tg_username"},
+        { title: "Опыт", value: "bird_skill_id"}
       ],
     };
   },
@@ -36,5 +36,9 @@ export default {
   },
   methods: {
   },
+  async mounted() {
+    await this.$store.dispatch("loadVolunteers");
+    console.log("mounted vol", this.volunteers);
+  }
 };
 </script>

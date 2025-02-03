@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import { login } from '../services/auth'
+import { loadVolunteers, setAuthToken } from '../services/api'
 
 export default createStore({
   namespaced: true,
@@ -337,6 +338,9 @@ export default createStore({
     logout(state) {
       state.isLoggedIn = false;
     },
+    setVolunteers (state, volunteers) {
+      state.volunteers = volunteers;
+    }
   },
   actions: {
     async fetchSections({ commit }) {
@@ -349,10 +353,15 @@ export default createStore({
       state.sections = sections;
     },
     async login({ commit }, credentials) {
-      console.log("login", credentials);
       const data = await login(credentials);
       commit('setToken', data.token); // Сохраняем токен
+      setAuthToken(data.token);
       //commit('setUser', data.user);   // Сохраняем данные пользователя (если есть)
+    },
+    async loadVolunteers({ commit }) {
+      const data = await loadVolunteers();
+      console.log(data);
+      commit('setVolunteers', data);
     },
     logout({ commit }) {
       commit('logout');

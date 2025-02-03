@@ -52,7 +52,7 @@ export default {
     },
     logout() {
       localStorage.removeItem("isLoggedIn");
-      this.$store.dispatch("shifts/logout");
+      this.$store.dispatch("logout");
       this.$router.push("/login");
     },
   }  

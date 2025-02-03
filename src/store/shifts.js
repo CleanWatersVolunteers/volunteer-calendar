@@ -6,6 +6,7 @@ export default createStore({
   namespaced: true,
   state: {
     isLoggedIn: false, // Для логина МОК
+    loginError: null,
     // Для логина через API    
     token: null,
     user: null,
@@ -323,6 +324,9 @@ export default createStore({
       state.token = token;
       localStorage.setItem('token', token)
     },
+    setLoginError(state, error) {
+      state.loginError = error;
+    },
     // setUser(state, user) {
     //   state.user = user;
     // },
@@ -337,6 +341,8 @@ export default createStore({
     },
     logout(state) {
       state.isLoggedIn = false;
+      state.token = null;
+      localStorage.removeItem('token');
     },
     setVolunteers (state, volunteers) {
       state.volunteers = volunteers;
@@ -353,10 +359,16 @@ export default createStore({
       state.sections = sections;
     },
     async login({ commit }, credentials) {
-      const data = await login(credentials);
-      commit('setToken', data.token); // Сохраняем токен
-      setAuthToken(data.token);
-      //commit('setUser', data.user);   // Сохраняем данные пользователя (если есть)
+      try {
+        const data = await login(credentials); // Попытка выполнить вход
+        commit('setToken', data.token); // Сохраняем токен
+        setAuthToken(data.token);
+        commit('login'); // Установка флага успешного входа
+        commit('setLoginError', null); // Очищаем сообщение об ошибке
+      } catch (error) {
+        console.error('Ошибка при входе:', error); // Логирование ошибки
+        commit('setLoginError', error.error || 'Неизвестная ошибка'); // Установка сообщения об ошибке
+      }
     },
     async loadVolunteers({ commit }) {
       const data = await loadVolunteers();

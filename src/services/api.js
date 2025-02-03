@@ -8,8 +8,24 @@ const api = axios.create({
 
 export default api;
 
+export const setAuthToken = (token) => {
+  api.interceptors.request.use((req) => {
+    if(token){
+        req.headers.Authorization = `Token ${token}`;
+    }
+    return req;
+})
+}
 
-
+export const loadVolunteers = async () => {
+  try{
+    const response = await api.get('/volunteers'); 
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
 
 // // Здесь мы можем позже интегрировать API запросы
 // export const getShifts = () => {

@@ -11,14 +11,14 @@
       <v-card-actions>
         <v-btn :loading="loading" color="primary" type="submit" @click="handleLogin">Войти</v-btn>
       </v-card-actions>
-      <v-alert v-if="error" type="error" dense class="mt-4">{{ error }}</v-alert>
+      <v-alert v-if="loginError" type="error" dense class="mt-4">{{ loginError }}</v-alert>
     </v-card>
   </v-container>
 </template>
 
 <script>
 // import { mapActions } from 'vuex';
-
+import { mapState } from 'vuex';
 export default {
   name: "LoginPage",
   data() {
@@ -28,6 +28,9 @@ export default {
       loading: false,
       error: null,
     };
+  },
+  computed: {
+    ...mapState(['loginError', 'isLoggedIn'])
   },
   methods: {
     // ...mapActions(['login']),
@@ -46,11 +49,13 @@ export default {
     // },
 
     // Простая проверка логина
-    handleLogin() {
+    async handleLogin() {
       if (this.username && this.password) {
-        localStorage.setItem("isLoggedIn", "true");
-        this.$store.dispatch("shifts/login");
-        this.$router.push("/headquarters");
+        await this.$store.dispatch("login", {username: this.username, password: this.password});
+        if (this.isLoggedIn) {
+          localStorage.setItem("isLoggedIn", "true");
+          this.$router.push("/headquarters");
+        }
       }
     },
   },

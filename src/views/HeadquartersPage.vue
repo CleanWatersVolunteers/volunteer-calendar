@@ -48,6 +48,10 @@ export default {
       return this.$store.getters["getHeadquarters"];
     },
   },
+  async mounted() {
+    await this.$store.dispatch('loadHQ');
+    console.log(this.headquarters);
+  },
   methods: {
     openShifts(hqId) {
       this.$router.push(`/headquarters/${hqId}`);

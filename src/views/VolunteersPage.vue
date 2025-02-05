@@ -16,7 +16,7 @@
             clearable
           />
         </v-col>
-        <v-col cols="12" sm="4" class="d-flex text-right mb-0 pa-1 "> 
+        <v-col cols="12" sm="4" class="d-flex text-left mb-0 pa-1 "> 
           <v-switch 
             v-model="showActiveOnly"
             color="primary"

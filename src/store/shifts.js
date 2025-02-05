@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import { login } from '../services/auth'
-import { loadVolunteers, setAuthToken } from '../services/api'
+import { loadVolunteers, loadHQ } from '../services/api'
 
 export default createStore({
   namespaced: true,
@@ -346,6 +346,9 @@ export default createStore({
     },
     setVolunteers (state, volunteers) {
       state.volunteers = volunteers;
+    },
+    setHQ (state, hq) {
+      state.headquarters = hq;
     }
   },
   actions: {
@@ -362,7 +365,6 @@ export default createStore({
       try {
         const data = await login(credentials); // Попытка выполнить вход
         commit('setToken', data.token); // Сохраняем токен
-        setAuthToken(data.token);
         commit('login'); // Установка флага успешного входа
         commit('setLoginError', null); // Очищаем сообщение об ошибке
       } catch (error) {
@@ -374,6 +376,11 @@ export default createStore({
       const data = await loadVolunteers();
       console.log(data);
       commit('setVolunteers', data);
+    },
+    async loadHQ({ commit }) {
+      const data = await loadHQ();
+      console.log("load data", data);
+      commit('setHQ', data);
     },
     logout({ commit }) {
       commit('logout');

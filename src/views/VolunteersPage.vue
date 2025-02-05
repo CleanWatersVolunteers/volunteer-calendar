@@ -6,7 +6,7 @@
 
       <!-- Панель с фильтрами -->
       <v-row  class="mb-0 px-2" align="center">
-        <v-col cols="4" sm="6" md="4" class="mb-0 pa-1 pr-2">
+        <v-col cols="12" sm="8" md="4" class="mb-0 pa-1 pr-2">
           <v-text-field
             v-model="search"
             label="Поиск по ФИО, телефону, Telegram"
@@ -16,7 +16,7 @@
             clearable
           />
         </v-col>
-        <v-col cols="6" class="text-right mb-0 pa-1 ">
+        <v-col cols="12" sm="4" class="d-flex text-right mb-0 pa-1 "> 
           <v-switch 
             v-model="showActiveOnly"
             color="primary"
@@ -41,12 +41,12 @@
       <!-- Карточки для мобильных устройств -->
       <v-row v-if="isMobile">
         <v-col v-for="volunteer in filteredVolunteers" :key="volunteer.id" cols="12">
-          <v-card class="pa-1">
-            <v-card-title>{{ volunteer.name }}</v-card-title>
-            <v-card-subtitle>{{ volunteer.phone }} | {{ volunteer.tg_username }}</v-card-subtitle>
-            <v-card-text>
-              <p><strong>Дата начала работ:</strong> {{ volunteer.date_start }}</p>
-              <p><strong>Дата окончания работ:</strong> {{ volunteer.date_end }}</p>
+          <v-card class="pa-1" >
+            <v-card-title align="left">{{ volunteer.name }}</v-card-title>
+            <v-card-subtitle align="left">Период работ: {{ volunteer.date_start }} - {{ volunteer.date_end }}</v-card-subtitle>
+            <v-card-text align="left">
+              <p><strong>Телефон:</strong> {{ volunteer.phone }}</p>
+              <p><strong>Телеграм:</strong> {{ volunteer.tg_username }}</p>
               <p><strong>Навыки:</strong> {{ volunteer.skills }}</p>
             </v-card-text>
           </v-card>

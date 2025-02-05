@@ -32,7 +32,7 @@
         :headers="headers" 
         :items="filteredVolunteers" 
         :items-per-page="20"
-        item-key="name"
+        item-key="id"
         class="elevation-1 compact-table" 
         density="compact"
       />

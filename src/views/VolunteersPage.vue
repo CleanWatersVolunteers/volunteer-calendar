@@ -27,16 +27,32 @@
         </v-col>
       </v-row>
 
-      <v-responsive min-width="600">
-        <v-data-table 
-          :headers="headers" 
-          :items="filteredVolunteers" 
-          :items-per-page="20"
-          item-key="name"
-          class="elevation-1 compact-table" 
-          density="compact"
-        />
-      </v-responsive>
+      <v-data-table 
+        v-if="!isMobile"
+        :headers="headers" 
+        :items="filteredVolunteers" 
+        :items-per-page="20"
+        item-key="name"
+        class="elevation-1 compact-table" 
+        density="compact"
+      />
+
+
+      <!-- Карточки для мобильных устройств -->
+      <v-row v-if="isMobile">
+        <v-col v-for="volunteer in filteredVolunteers" :key="volunteer.id" cols="12">
+          <v-card class="pa-1">
+            <v-card-title>{{ volunteer.name }}</v-card-title>
+            <v-card-subtitle>{{ volunteer.phone }} | {{ volunteer.tg_username }}</v-card-subtitle>
+            <v-card-text>
+              <p><strong>Дата начала работ:</strong> {{ volunteer.date_start }}</p>
+              <p><strong>Дата окончания работ:</strong> {{ volunteer.date_end }}</p>
+              <p><strong>Навыки:</strong> {{ volunteer.skills }}</p>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+
     </v-main>
     
   </v-container>
@@ -55,6 +71,7 @@ export default {
     return {
       search: "", // Для поиска
       showActiveOnly: false, // Фильтр активных волонтеров
+      isMobile: window.innerWidth < 600, // Проверяем размер экрана
       headers: [
         { title: "ФИО", value: "name", align: "left" },
         { title: "Телефон", value: "phone", align: "left" },
@@ -95,11 +112,21 @@ export default {
     },
   },
   methods: {
+    checkScreenSize() {
+      this.isMobile = window.innerWidth < 600;
+    },
   },
   async mounted() {
+    // Отслеживаем изменение ширины окна
+    window.addEventListener("resize", this.checkScreenSize);
+
+    // Получаем список волонтёров
     await this.$store.dispatch("loadVolunteers");
     console.log("mounted vol", this.volunteers);
-  }
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.checkScreenSize);
+  },
 };
 </script>
 

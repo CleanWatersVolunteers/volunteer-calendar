@@ -1,22 +1,25 @@
 <template>
   <v-container>
     <v-app-bar flat color="primary" app>
-        <v-toolbar-title  cols="auto">{{ title || "Календарь смен. Анапа"}}</v-toolbar-title>
+        <v-toolbar-title  cols="auto" justify="center" align="center" no-gutters>{{ title || "Календарь смен. Анапа"}}</v-toolbar-title>
         <!-- <v-spacer /> -->
         <v-btn color="secondary" @click="logout">Выйти</v-btn>
     </v-app-bar>
 
     <v-app-bar flat color="primary">
         <v-container>
-        <v-row>
+        <v-row  justify="center" align="center" no-gutters>
             <v-col 
             v-for="link in links"
             :key="link.text"
+            cols="auto"
+            class="text-center"
             >
             <v-btn
                 @click="goTo(link.to)"
                 text
                 color="white"
+                class="nav-btn"
             >
                 {{ link.text }}
             </v-btn>
@@ -58,3 +61,14 @@ export default {
   }  
 }
 </script>
+
+<style scoped>
+/* Уменьшаем размер кнопок на мобильных */
+@media (max-width: 600px) {
+  .nav-btn {
+    font-size: 12px;
+    padding: 4px 8px;
+    min-width: auto;
+  }
+}
+</style>

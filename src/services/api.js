@@ -36,6 +36,16 @@ export const loadHQ = async () => {
     return null;
   }
 }
+
+export const loadShifts = async () => {
+  try {
+    const response = await api.get('/shifts');
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
 // // Здесь мы можем позже интегрировать API запросы
 // export const getShifts = () => {
 //   return [

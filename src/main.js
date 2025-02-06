@@ -40,7 +40,9 @@ import { VApp,
     VIcon,
     VLayout,
     VSwitch,
-    VResponsive} from 'vuetify/components'
+    VResponsive,
+    VDatePicker,
+    VMenu} from 'vuetify/components'
 
 // Создаем экземпляр Vuetify
 const vuetify = createVuetify({
@@ -81,6 +83,8 @@ const vuetify = createVuetify({
         VLayout,
         VSwitch, 
         VResponsive,
+        VDatePicker,
+        VMenu,
     }
 })
 

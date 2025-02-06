@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import { login } from '../services/auth'
-import { loadVolunteers, loadHQ } from '../services/api'
+import { loadVolunteers, loadHQ, loadShifts } from '../services/api'
 
 export default createStore({
   namespaced: true,
@@ -23,10 +23,11 @@ export default createStore({
         location: "Анапа",
       },
     ],
+    shifts: {},
     sections: [
       {
         name: "ШТАБ",
-        headquarter: 1,
+        headquarter: 9,
         roles: [
           {
             role: "Координатор штаба",
@@ -231,6 +232,9 @@ export default createStore({
       console.log(sections)
       return sections 
     },
+    getShiftByHeadquarter: (state) => (hqId) => {
+      return state.shifts[hqId];
+    },
     getHeadquarterById: (state) => (hqId) => {
       return state.headquarters.find((hq) => hq.id === hqId)
     },
@@ -349,6 +353,11 @@ export default createStore({
     },
     setHQ (state, hq) {
       state.headquarters = hq;
+    },
+    setShift (state, { shift, id }) {
+      console.log("setShift", shift, id);
+      state.shifts[id] = shift;
+      console.log("shifts", state.shifts, state.shifts[id]);
     }
   },
   actions: {
@@ -381,6 +390,11 @@ export default createStore({
       const data = await loadHQ();
       console.log("load data", data);
       commit('setHQ', data);
+    },
+    async loadShifts({ commit }, id){
+      const data = await loadShifts(id);
+      console.log("load data", data);
+      commit('setShift', { shift: data, id: id });
     },
     logout({ commit }) {
       commit('logout');

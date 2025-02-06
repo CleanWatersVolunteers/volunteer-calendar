@@ -1,6 +1,6 @@
 <template>
   <v-card class="mb-6">
-    <v-card-title>{{ section.name }}</v-card-title>
+    <v-card-title>{{ section.notes }}</v-card-title>
     <v-divider></v-divider>
     <v-card-text>
       <v-row 
